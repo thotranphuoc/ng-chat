@@ -1,32 +1,48 @@
 # NgChatv2
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.19-3.
+1. ng new PROJECT_NAME
+2. For server: 
+    a. create package.json with 2 dependencies: express & socket.io.
+    b. create server.js file. this file use express and socket.io to listen all request from clients then response messages to all clients accordingly
+3. For browser loading:
+    a. create file socket.io.js from cdn.socket.io. Locate it in dedicated folder /src/vendor/socket.io-client/socket.io.js
+    b. insert that socket.io.js into index.html
+4. For clients:
+    - When access to localhost:4200, chat.component.ts getMessages() and always subscribe any update ( message sent out from server)
+    - user send message to server {message, username} with event name 'add-message'
+    - server listen to event 'add-message' and then emit an event name 'message' with an object{ eventName: message, text: message, username: username}
+    - when server emit a new event, all clients observer and update to messages[] then display in DOM
+5. Remember to add some declaration into typings.d.ts or run command "npm i @types/socket.io-client"
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
-## Build
+HOW TO RUN:
+- clone this project
+- install package
+- go to location /src/serve/ and run "node server.js"
+- open new terminal, type "ng serve"
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+CLIENT-1                               SERVER                               CLIENT-2
+    |       "Hi there"                    |                                       |
+    |  -------------------------------->  |                                       |
+    |              "Hi there"             |         "Hi there"                    |
+    |  <--------------------------------- |  ------------------------------>      |
+    |                                     |                "Yes sir"              |
+    |                                     |   <---------------------------------  |
+    |                "Yes sir"            |              "Yes sir"                |
+    |  <--------------------------------- |   --------------------------------->  |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       |
+    |                                     |                                       
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
 
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# ng-chat
